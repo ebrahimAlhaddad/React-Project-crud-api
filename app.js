@@ -2,97 +2,87 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-//middleware
-app.use(request.json());
+const { ENVIRONMENT, PORT } = process.env;
+const IS_DEVELOPMENT = ENVIRONMENT === 'development';
+
+// middleware
+app.use(express.json());
 app.use(cors({
-    origin:'http://localhost:3000'
+  origin: IS_DEVELOPMENT ? 'http://localhost:3000' : 'https://dtang-react-crud.surge.sh'
 }));
 
-//db
 const db = {
-    posts: [
-        {
-            id: 1,
-            title: "post 1",
-            body: "intellectual stuff"
-        },
-        {
-            id: 2,
-            title: "post 2",
-            body: "intellectual stuff"
-        }
-    ]
+  posts: [
+    {
+      id: 1,
+      title: 'Post 1',
+      body: 'something here...'
+    },
+    {
+      id: 2,
+      title: 'Post 2',
+      body: 'something else here...'
+    },
+    {
+      id: 3,
+      title: 'Post 3',
+      body: 'something else here...'
+    }
+  ]
 };
-//READ
-app.get("/api/posts", (request, response)=>{
-    // response.json({
-    //     text: "test"
-    // });
-    response.json(db.posts);
+
+app.get('/api/posts', (request, response) => {
+  response.json(db.posts);
 });
 
-app.get("/api/posts/:id", (request, response)=>{
-    const id = Number(request.params.id);
-
-    const post = db.posts.find((post) => {
-        return post.id === id;
-    });
-
-    if (post){
-        response.json(post);
-    } else {
-        response.status(404).send();
-    }
-
+app.post('/api/posts', (request, response) => {
+  const post = request.body;  
+  post.id = db.posts.length + 1;
+  db.posts.push(post);
+  response.json(post);
 });
 
-//CREATE
-app.post("/api/posts", (response, request) =>{
+app.get('/api/posts/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const post = db.posts.find((post) => {
+    return post.id === id;
+  });
 
-    const post = request.body;
-
-    post.id = db.posts.length + 1;
-
-    db.posts.push(post);
-
+  if (post) {
     response.json(post);
+  } else {
+    response.status(404).send();
+  }
 });
 
-//DELETE
-app.delete('/api/posts/:id', (request,response)=>{
-    const id = Number(request.params.id);
+app.delete('/api/posts/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const post = db.posts.find((post) => {
+    return post.id === id;
+  });
 
-    const post = db.posts.find((post) => {
-        return post.id === id;
+  if (post) {
+    db.posts = db.posts.filter((post) => {
+      return post.id !== id;
     });
-
-    if (post){
-        //delete
-        db.posts = db.posts.filter((post)=>{
-            return post.id !== id;
-        });
-        response.status(204).send();
-        
-    } else {
-        response.status(404).send();
-    }
+    response.status(204).send();
+  } else {
+    response.status(404).send();
+  }
 });
 
-//UPDATE
-app.put("/api/posts/:id", (request,response)=>{
-    const id = Number(request.params.id);
-    const post = db.posts.find((post) => {
-        return post.id === id;
-    });
+app.put('/api/posts/:id', (request, response) => {
+  const id = Number(request.params.id);
+  const post = db.posts.find((post) => {
+    return post.id === id;
+  });
 
-    if (post){
-        //update
-        Object.assign(post,request.body);
-        response.json(post);
-    } else {
-        response.status(404).send();
-    }
+  if (post) {
+    Object.assign(post, request.body)
+    response.json(post);
+  } else {
+    response.status(404).send();
+  }
 });
 
-
-app.listen(process.env.PORT || 8000);
+app.listen(PORT || 8000);
