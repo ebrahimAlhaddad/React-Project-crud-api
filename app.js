@@ -29,7 +29,7 @@ app.post('/api/games', (request, response) => {
     response.status(504).send();
   } else {
     response.status(204).send();
-    db.games.push(game);
+    db.games.push(game_request);
 
   }
 
