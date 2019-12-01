@@ -23,17 +23,7 @@ app.get('/api/games', (request, response) => {
   response.json(db.games);
 });
 
-app.post('/api/games', (request, response) => {
-  const game_request = request.body;  
-  if (db.games.filter(function(e) { return e.id === game_request.id; }).length > 0) {
-    response.status(504).send();
-  } else {
-    response.status(204).send();
-    db.games.push(game_request);
 
-  }
-
-});
 
 app.get('/api/games/:id', (request, response) => {
   const id = Number(request.params.id);
@@ -48,6 +38,18 @@ app.get('/api/games/:id', (request, response) => {
   }
 });
 
+app.post('/api/games', (request, response) => {
+  const game_request = request.body;  
+  if (db.games.filter(function(e) { return e.id === game_request.id; }).length > 0) {
+    response.status(504).send();
+  } else {
+    response.status(204).send();
+    db.games.push(game_request);
+
+  }
+
+});
+
 app.delete('/api/games/:id', (request, response) => {
   const id = Number(request.params.id);
   const game = db.games.find((game) => {
@@ -60,7 +62,7 @@ app.delete('/api/games/:id', (request, response) => {
     });
     response.status(204).send();
   } else {
-    response.status(404).send();
+    response.status(504).send();
   }
 });
 
