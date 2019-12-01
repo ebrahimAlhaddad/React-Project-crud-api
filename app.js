@@ -74,9 +74,9 @@ app.put('/api/games/:id', (request, response) => {
 
   if (game) {
     Object.assign(game, request.body)
-    response.json(game);
+    response.status(204).send();
   } else {
-    response.status(404).send();
+    response.status(504).send();
   }
 });
 
