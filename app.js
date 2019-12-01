@@ -8,8 +8,9 @@ const IS_DEVELOPMENT = ENVIRONMENT === 'development';
 // middleware
 app.use(express.json());
 app.use(cors({
-  origin: IS_DEVELOPMENT ? 'http://localhost:3000' : 'https://dtang-react-crud.surge.sh'
+  origin: IS_DEVELOPMENT ? 'http://localhost:3000' : 'http://localhost:3000'
 }));
+
 
 const db = {
   posts: [
@@ -22,7 +23,7 @@ app.get('/api/posts', (request, response) => {
   response.json(db.posts);
 });
 
-app.post('/api/game', (request, response) => {
+app.post('/api/games', (request, response) => {
   const game = request.body;  
   db.posts.push(game);
   response.json(game);
