@@ -28,12 +28,13 @@ app.post('/api/games', (request, response) => {
   const game_db = db.games.find((game) => {
     return game.id === game_request.id;
   });
-  if(game_db){
-    response.status(504).send();
-  } else {
-    db.games.push(game);
-    response.status(204).send();
-  }
+  response.json(game_db);
+  // if(game_db){
+  //   response.status(504).send();
+  // } else {
+  //   db.games.push(game);
+  //   response.status(204).send();
+  // }
 
 });
 
