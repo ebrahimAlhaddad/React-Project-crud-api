@@ -13,21 +13,8 @@ app.use(cors({
 
 const db = {
   posts: [
-    {
-      id: 1,
-      title: 'Post 1',
-      body: 'something here...'
-    },
-    {
-      id: 2,
-      title: 'Post 2',
-      body: 'something else here...'
-    },
-    {
-      id: 3,
-      title: 'Post 3',
-      body: 'something else here...'
-    }
+    
+    
   ]
 };
 
@@ -35,11 +22,10 @@ app.get('/api/posts', (request, response) => {
   response.json(db.posts);
 });
 
-app.post('/api/posts', (request, response) => {
-  const post = request.body;  
-  post.id = db.posts.length + 1;
-  db.posts.push(post);
-  response.json(post);
+app.post('/api/game', (request, response) => {
+  const game = request.body;  
+  db.posts.push(game);
+  response.json(game);
 });
 
 app.get('/api/posts/:id', (request, response) => {
