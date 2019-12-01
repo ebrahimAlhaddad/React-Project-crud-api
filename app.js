@@ -28,7 +28,13 @@ app.post('/api/games', (request, response) => {
   const game_db = db.games.find((game) => {
     return game.id === game_request.id;
   });
-  response.json(game_db);
+  if(game_db === undefined){
+    response.status(204).send();
+  } else {
+    response.status(504).send();
+
+  }
+  
   // if(game_db){
   //   response.status(504).send();
   // } else {
