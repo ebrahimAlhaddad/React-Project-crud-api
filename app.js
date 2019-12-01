@@ -24,9 +24,17 @@ app.get('/api/games', (request, response) => {
 });
 
 app.post('/api/games', (request, response) => {
-  const game = request.body;  
-  db.games.push(game);
-  response.json(game);
+  const game_request = request.body;  
+  const game_db = db.games.find((game) => {
+    return game.id === game_request.id;
+  });
+  if(game_db){
+    response.status(504).send();
+  } else {
+    db.games.push(game);
+    response.status(204).send();
+  }
+
 });
 
 app.get('/api/games/:id', (request, response) => {
