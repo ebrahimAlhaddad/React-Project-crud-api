@@ -13,44 +13,44 @@ app.use(cors({
 
 
 const db = {
-  posts: [
+  games: [
     
     
   ]
 };
 
-app.get('/api/posts', (request, response) => {
-  response.json(db.posts);
+app.get('/api/games', (request, response) => {
+  response.json(db.games);
 });
 
 app.post('/api/games', (request, response) => {
   const game = request.body;  
-  db.posts.push(game);
+  db.games.push(game);
   response.json(game);
 });
 
-app.get('/api/posts/:id', (request, response) => {
+app.get('/api/games/:id', (request, response) => {
   const id = Number(request.params.id);
-  const post = db.posts.find((post) => {
-    return post.id === id;
+  const game = db.games.find((game) => {
+    return game.id === id;
   });
 
-  if (post) {
-    response.json(post);
+  if (game) {
+    response.json(game);
   } else {
     response.status(404).send();
   }
 });
 
-app.delete('/api/posts/:id', (request, response) => {
+app.delete('/api/games/:id', (request, response) => {
   const id = Number(request.params.id);
-  const post = db.posts.find((post) => {
-    return post.id === id;
+  const game = db.games.find((game) => {
+    return game.id === id;
   });
 
-  if (post) {
-    db.posts = db.posts.filter((post) => {
-      return post.id !== id;
+  if (game) {
+    db.games = db.games.filter((game) => {
+      return game.id !== id;
     });
     response.status(204).send();
   } else {
@@ -58,15 +58,15 @@ app.delete('/api/posts/:id', (request, response) => {
   }
 });
 
-app.put('/api/posts/:id', (request, response) => {
+app.put('/api/games/:id', (request, response) => {
   const id = Number(request.params.id);
-  const post = db.posts.find((post) => {
-    return post.id === id;
+  const game = db.games.find((game) => {
+    return game.id === id;
   });
 
-  if (post) {
-    Object.assign(post, request.body)
-    response.json(post);
+  if (game) {
+    Object.assign(game, request.body)
+    response.json(game);
   } else {
     response.status(404).send();
   }
