@@ -14,7 +14,7 @@ app.use(cors({
 
 const db = {
   games: [
-    
+
     
   ]
 };
@@ -25,13 +25,10 @@ app.get('/api/games', (request, response) => {
 
 app.post('/api/games', (request, response) => {
   const game_request = request.body;  
-  const game_db = db.games.find((game) => {
-    return game.id === game_request.id;
-  });
-  if(game_db === undefined){
-    response.status(204).send();
-  } else {
+  if (db.games.filter(function(e) { return e.id === game_request.id; }).length > 0) {
     response.status(504).send();
+  } else {
+    response.status(204).send();
   }
   
   // if(game_db){
