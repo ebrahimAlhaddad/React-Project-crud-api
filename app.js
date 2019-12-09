@@ -8,7 +8,7 @@ const IS_DEVELOPMENT = ENVIRONMENT === 'development';
 // middleware
 app.use(express.json());
 app.use(cors({
-  origin: IS_DEVELOPMENT ? 'http://localhost:3000' : 'http://localhost:3000'
+  origin: IS_DEVELOPMENT ? 'http://localhost:3000' : 'https://http://unarmed-bridge.surge.sh'
 }));
 
 
